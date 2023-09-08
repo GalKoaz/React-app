@@ -26,6 +26,7 @@ export default function Register() {
 
       if (response.ok) {
         console.log('Registration successful');
+        alert('Registration successful');
       } else {
         console.error('Registration failed');
       }
