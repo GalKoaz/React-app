@@ -19,7 +19,9 @@ const todoItemSchema = new mongoose.Schema({
     },
 });
 
-const TodoItem = mongoose.model('TodoItem', todoItemSchema);
+// Create a unique compound index on 'title' and 'description'
+todoItemSchema.index({ title: 1, description: 1 }, { unique: true });
 
+const TodoItem = mongoose.model('TodoItem', todoItemSchema);
 
 export default TodoItem;

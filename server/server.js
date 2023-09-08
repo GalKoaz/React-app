@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import User from "./Models/User.js";
-import Todolist from "./Models/Todolist.js";
+// import Todolist from "./Models/Todolist.js";
 import bcrypt from "bcrypt";
+import cors from 'cors';
 
 dotenv.config();
 
@@ -14,18 +15,17 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 app.use(bodyParser.json());
 
+app.use(cors());
+
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
-
-mongoose.connection.on("connected", () => {
+}).then(() => {
   console.log("Connected to MongoDB");
-});
-
-mongoose.connection.on("error", (err) => {
+}).catch((err) => {
   console.error("MongoDB connection error:", err);
 });
+
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 
 app.post("/register", async (req, res) => {
   try {
-    const {email, password } = req.body;
+    const {email, password} = req.body;
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -56,6 +56,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
+
 app.post("/login", async (req, res) => {
     try {
         const {email, password } = req.body;
@@ -74,17 +75,6 @@ app.post("/login", async (req, res) => {
         }
 });
 
-app.get("/todolist", async (req, res) => {
-    try {
-      const userId = req.user.id;
-      const todoList = await Todolist.find({ userId });
-
-      res.status(200).json(todoList);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Failed to retrieve todo list" });
-    }
-});
   
 
 app.listen(port, () => {

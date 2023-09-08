@@ -1,0 +1,14 @@
+.container{
+    display: block;
+    margin: auto;
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    height: 5%;
+  }
+
+  .input{
+    display: flex;
+    text-align: left;
+    margin-bottom: 5%;
+  }

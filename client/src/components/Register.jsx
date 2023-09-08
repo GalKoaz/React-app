@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
-import './Login.css';
-import Register from './Register';
+import './Register.css';
 
-export default function Login() {
+
+export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (password !== confirmPassword) {
+      console.error('Passwords do not match');
+      return;
+    }
+
     try {
-      const response = await fetch('http://localhost:3000/login', {
+      const response = await fetch('http://localhost:3000/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -18,9 +25,9 @@ export default function Login() {
       });
 
       if (response.ok) {
-        console.log('Login successful');
+        console.log('Registration successful');
       } else {
-        console.error('Login failed');
+        console.error('Registration failed');
       }
     } catch (error) {
       console.error('Error:', error);
@@ -29,7 +36,7 @@ export default function Login() {
 
   return (
     <div className='container'>
-      <h2>Login</h2>
+      <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="input">
           <label htmlFor="email">Email:</label>
@@ -51,7 +58,17 @@ export default function Login() {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <div className="input">
+          <label htmlFor="confirmPassword">Confirm Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Register</button>
       </form>
     </div>
   );
