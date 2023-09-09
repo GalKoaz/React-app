@@ -16,8 +16,8 @@ export default function Register() {
       console.error('Passwords do not match');
       toast.error("Passwords do not match", {
         style: {
-          backgroundColor: 'black', // Change the background color to red
-          color: 'white', // Change the text color to white
+          backgroundColor: 'black',
+          color: 'white',
         },
       });
       return;
