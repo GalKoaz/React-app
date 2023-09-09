@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Register.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function Register() {
@@ -12,6 +14,12 @@ export default function Register() {
 
     if (password !== confirmPassword) {
       console.error('Passwords do not match');
+      toast.error("Passwords do not match", {
+        style: {
+          backgroundColor: 'black', // Change the background color to red
+          color: 'white', // Change the text color to white
+        },
+      });
       return;
     }
 
@@ -26,12 +34,22 @@ export default function Register() {
 
       if (response.ok) {
         console.log('Registration successful');
-        alert('Registration successful');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        toast.success("Registration successful");
       } else {
         console.error('Registration failed');
+        setPassword('');
+        setConfirmPassword('');
+        response.json().then((data) => toast.error(data.error));
       }
     } catch (error) {
       console.error('Error:', error);
+      toast.error("Registration failed");
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
     }
   };
 
@@ -71,6 +89,7 @@ export default function Register() {
         </div>
         <button type="submit">Register</button>
       </form>
+      <ToastContainer />
     </div>
   );
 }
