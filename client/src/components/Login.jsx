@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { Link, useNavigate  } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,11 +22,22 @@ export default function Login() {
 
       if (response.ok) {
         console.log('Login successful');
+        toast.success("Login successful");
+        setEmail('');
+        setPassword('');
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 2000);
       } else {
         console.error('Login failed');
+        setPassword('');
+        response.json().then((data) => toast.error(data.error));
       }
     } catch (error) {
       console.error('Error:', error);
+      toast.error('Error: ' + error);
+      setEmail('');
+      setPassword('');
     }
   };
 
@@ -56,6 +70,7 @@ export default function Login() {
       <>
       <p>Don't have an account? <Link to="/register">Register HERE!</Link></p>
       </>
+      <ToastContainer />
     </div>
   );
 }
