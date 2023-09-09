@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import User from "./Models/User.js";
-// import Todolist from "./Models/Todolist.js";
 import bcrypt from "bcrypt";
 import cors from 'cors';
 
@@ -30,6 +29,13 @@ mongoose.connect(MONGODB_URI, {
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+app.post("/add", async (req, res) => {
+    try {
+        const {task} = req.body;
+
+        
+
 
 app.post("/register", async (req, res) => {
   try {
