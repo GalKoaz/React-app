@@ -6,13 +6,12 @@ import Login from './components/Login.jsx'
 import Register from './components/Register.jsx'
 
 export default function App() {
-  const [count, setCount] = useState(0)
-  const [useForm, setUseForm] = useState(false);
 
 
   return (
-    <>
-      {useForm ? <Register /> : <div><Login /> <p>Dont Have Account? <button onClick={() => setUseForm(true)}>Register</button></p></div>}
-    </>
+    <div className='App'>
+      {/* {useForm ? <Register /> : <div><Login /> <p>Dont Have Account? <button onClick={() => setUseForm(true)}>Register</button></p></div>} */}
+
+    </div>
   )
 }

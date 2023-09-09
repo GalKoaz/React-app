@@ -1,0 +1,22 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    height: 0%;
+
+  }
+
+  .input{
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    margin-bottom: 5%;
+    text-align: left;
+    width: 100%;
+  }
+
+  input[type=text]:focus {
+    border: 3px solid #555;
+  }

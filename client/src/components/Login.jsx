@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import Register from './Register';
+import { Link, useNavigate  } from 'react-router-dom';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -53,6 +54,9 @@ export default function Login() {
         </div>
         <button type="submit">Login</button>
       </form>
+      <>
+      <p>Don't have an account? <Link to="/register">Register HERE!</Link></p>
+      </>
     </div>
   );
 }
