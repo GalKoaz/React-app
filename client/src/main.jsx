@@ -8,6 +8,13 @@ import "./index.css";
 import Dashboard from "./components/Dashboard";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const isAuthenticated = () => {
+  // Check if the user is authenticated here
+  // You might check for a token, session, or any other authentication state
+  // Return true if authenticated, otherwise return false
+};
+
 root.render(
   <React.StrictMode>
     <BrowserRouter>
