@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import User from "./Models/User.js";
 import bcrypt from "bcrypt";
 import cors from 'cors';
+import session from "express-session";
 
 dotenv.config();
 
@@ -16,6 +17,13 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
+
+app.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: false,
+}));
+
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -26,15 +34,18 @@ mongoose.connect(MONGODB_URI, {
 });
 
 
+function isAuthenticated(req, res, next) {
+  if (req.session && req.session.user) {
+    return next();
+  }
+  
+  res.status(401).send('Unauthorized');
+}
+
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
-
-// app.post("/add", async (req, res) => {
-//     try {
-//         const {task} = req.body;
-
-
 
 
 app.post("/register", async (req, res) => {
@@ -74,25 +85,38 @@ app.post("/login", async (req, res) => {
         if (!passwordCorrect) {
             return res.status(400).json({ error: "Invalid credentials" });
         }
-        res.status(200).json({ message: "Login successful" });
+        req.session.user = user;
+        res.status(200).json({Login: true, message: "Login successful" });
         } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Login failed" });
         }
 });
 
-app.get("/logout", async (req, res) => {
-    try {
-        res.status(200).json({ message: "Logout successful" });
-        } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Logout failed" });
-        }
+
+app.get('/dashboard', isAuthenticated, (req, res) => {
+  console.log(req.session.user);
+  res.status(200).json({ message: 'You are authenticated', user: req.session.user });
+});
+
+app.post('/logout', (req, res) => {
+  try{
+    req.session.destroy((err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Logout failed');
+      } else {
+        res.status(200).send('Logout successful');
+      }
+    });
+  }catch(error){
+    console.error(error);
+    res.status(500).send('Logout failed');
+  }
 });
 
 
   
-
 app.listen(port, () => {
   console.log("Server started on port " + port);
 });
