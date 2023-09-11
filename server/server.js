@@ -43,8 +43,6 @@ mongoose.connect(MONGODB_URI, {
 
 function isAuthenticated(req, res, next) {
   if (req.session && req.session.user) {
-    console.log(req.session.user);
-    console.log(req.session);
     return next();
   }
 
@@ -95,7 +93,8 @@ app.post("/login", async (req, res) => {
             return res.status(400).json({ error: "Invalid credentials" });
         }
         req.session.user = user;
-        // console.log(req.session);
+        req.session.save();
+        console.log(req.session);
         res.status(200).json({Login: true, message: "Login successful" });
         } catch (error) {
         console.error(error);
@@ -112,9 +111,7 @@ app.get('/dashboard', isAuthenticated, (req, res) => {
 
 app.post('/add',isAuthenticated, async (req, res) => {
   try {
-    console.log(req.session);
-    const user_id = req.session.user;
-    console.log(user_id);
+    const user_id = req.session.user._id;
     const {text} = req.body;
     const todo = new todoList({ user_id, text });
     await todo.save();
