@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import Item from './Item';
+import './Dashboard.css';
 
 export default function Dashboard() {
 
@@ -142,14 +143,14 @@ export default function Dashboard() {
 
     return ({authenticated} ?
         <>
-        <div>
+        <div className="dashboard">
             <h1>Welcome {userData}</h1>
         </div>
-        <div>
+        <div className="input-container">
             <input type="text" placeholder="Enter your task" onChange={handleInput} value={userInput}/>
-            <button onClick={handleAdd}>Add</button>
+            <button className="buttonInput"onClick={handleAdd}>Add</button>
         </div>
-        <div>
+        <div className="task-list">
             <ul>
                 {todoList.map((item,index)=>{
                     return(
@@ -158,7 +159,7 @@ export default function Dashboard() {
                 })} 
             </ul>
         </div>
-        <div>
+        <div className="logout-container">
             <button onClick={handleLogout}>Logout</button>
         </div>
         </>
