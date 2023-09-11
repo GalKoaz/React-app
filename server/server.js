@@ -93,7 +93,7 @@ app.post("/login", async (req, res) => {
         }
         req.session.user = user;
         req.session.save();
-        console.log(req.session);
+        // console.log(req.session);
         res.status(200).json({Login: true, message: "Login successful" });
         } catch (error) {
         console.error(error);
@@ -112,7 +112,7 @@ app.post('/add',isAuthenticated, async (req, res) => {
   try {
     const user_id = req.session.user._id;
     const {text} = req.body;
-    const todo = new todoList({ user_id, text });
+    const todo = new todoList({ user_id:user_id, text:text });
     await todo.save();
     res.status(201).json({ message: "Todo added successfully" });
   } catch (error) {
@@ -131,6 +131,24 @@ app.get('/getList', isAuthenticated, async (req, res) => {
     res.status(500).json({ error: "Todo addition failed" });
   }
 });
+
+app.post('/delete', isAuthenticated, async (req, res) => {
+  try {
+    const user_id = req.session.user._id;
+    const {text} = req.body;
+    const findmeassge = await todoList.findOneAndDelete({ user_id: user_id, text: text });
+    console.log("Deleted Todo:", findmeassge);
+    if(!findmeassge){
+      return res.status(400).json({ error: "task does not exist" });
+    }
+    res.status(200).json({ message: "Todo deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Todo deletion failed" });
+  }
+});
+
+
 
 app.post('/logout', (req, res) => {
   try{

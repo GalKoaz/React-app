@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './Login.css';
 import { Link, useNavigate  } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
+import PersonIcon from '@mui/icons-material/Person';
+import LockIcon from '@mui/icons-material/Lock';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -46,7 +48,8 @@ export default function Login() {
     <div className='container'>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
-        <div className="input">
+        <div className="input-field">
+        <PersonIcon />
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -56,8 +59,9 @@ export default function Login() {
             required
           />
         </div>
-        <div className="input">
-          <label htmlFor="password">Password:</label>
+        <div className="input-field">
+        <LockIcon />
+          <label htmlFor="password"><span>Password:</span></label>
           <input
             type="password"
             id="password"

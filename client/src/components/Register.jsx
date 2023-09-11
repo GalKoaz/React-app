@@ -71,7 +71,7 @@ export default function Register() {
     <div className='container'>
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
-        <div className="input">
+        <div className="input-field">
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -81,7 +81,7 @@ export default function Register() {
             required
           />
         </div>
-        <div className="input">
+        <div className="input-field">
           <label htmlFor="password">Password:</label>
           <input
             type="password"
@@ -91,7 +91,7 @@ export default function Register() {
             required
           />
         </div>
-        <div className="input">
+        <div className="input-field">
           <label htmlFor="confirmPassword">Confirm Password:</label>
           <input
             type="password"
