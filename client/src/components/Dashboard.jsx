@@ -100,9 +100,7 @@ export default function Dashboard() {
                 credentials: 'include',
             });
             if (response.ok) {
-                console.log('Task Added');
                 setUserInput('');
-                toast.success("Task Added");
             } else {
                 console.error('Task not Added');
                 setUserInput('');
@@ -110,7 +108,6 @@ export default function Dashboard() {
             }
         } catch (error) {
             console.error(error);
-            toast.error("Task not Added");
         }
     };
 
@@ -123,12 +120,11 @@ export default function Dashboard() {
                 headers: {
                 'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ item }),
+                body: JSON.stringify({ text:item }),
                 credentials: 'include',
             });
             if (response.ok) {
                 console.log('Task Deleted');
-                toast.success("Task Deleted");
                 setTodoList((prevValue)=>{
                     return prevValue.filter((item,index)=>{
                         return index !== id;
@@ -136,11 +132,9 @@ export default function Dashboard() {
                 });
             } else {
                 console.error('Task not Deleted');
-                response.json().then((data) => toast.error(data.error));
             }
         } catch (error) {
             console.error(error);
-            toast.error("Task not Deleted");
         }
     };
 

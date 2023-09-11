@@ -136,7 +136,8 @@ app.post('/delete', isAuthenticated, async (req, res) => {
   try {
     const user_id = req.session.user._id;
     const {text} = req.body;
-    const findmeassge = await todoList.findOneAndDelete({ user_id: user_id, text: text });
+    console.log(user_id, text);
+    const findmeassge = await todoList.findOneAndDelete({ user_id, text });
     console.log("Deleted Todo:", findmeassge);
     if(!findmeassge){
       return res.status(400).json({ error: "task does not exist" });
