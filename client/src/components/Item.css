@@ -1,3 +1,9 @@
 .delete-icon{
     cursor: pointer;
+    align-items: right;
+}
+
+.edit-icon{
+    cursor: pointer;
+    align-items: right;
 }
