@@ -17,11 +17,15 @@ export default function Dashboard() {
     useEffect(() => {
         const fetchUserData = async () => {
           try {
-            const response = await fetch('/dashboard');
+            const response = await fetch('http://localhost:3000/dashboard', {
+                method: 'GET',
+                credentials: 'include', // Send cookies with the request
+            });
             if (!response.ok) {
               throw new Error('Network response was not ok');
             }
             const data = await response.json();
+            setAuthenticated(true);
             setUserData(data.user);
             console.log(data.user.email);
             setLoading(false);

@@ -26,9 +26,10 @@ app.use(cors({
 
 app.use(session({
   secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: false,
+  resave: false, // Set to false to prevent unnecessary session updates
+  saveUninitialized: true, // Set to true to create a session for new visitors
 }));
+
 
 mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
@@ -42,6 +43,8 @@ mongoose.connect(MONGODB_URI, {
 
 function isAuthenticated(req, res, next) {
   if (req.session && req.session.user) {
+    console.log(req.session.user);
+    console.log(req.session);
     return next();
   }
 
@@ -92,7 +95,7 @@ app.post("/login", async (req, res) => {
             return res.status(400).json({ error: "Invalid credentials" });
         }
         req.session.user = user;
-        console.log(req.session);
+        // console.log(req.session);
         res.status(200).json({Login: true, message: "Login successful" });
         } catch (error) {
         console.error(error);
