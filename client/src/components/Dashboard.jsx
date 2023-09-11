@@ -26,7 +26,6 @@ export default function Dashboard() {
             console.log(data.user.email);
             setLoading(false);
           } catch (error) {
-            // toast.error(error.message);
             setLoading(false);
           }
         };
@@ -56,6 +55,38 @@ export default function Dashboard() {
         } catch (error) {
             console.error('Error:', error);
             toast.error('Error: ' + error);
+        }
+    };
+
+    const handleInput = (event) => {
+        setUserInput(event.target.value);
+    };
+
+
+    const handleAdd = async (event) => {
+        setTodoList([...todoList,userInput]);
+        event.preventDefault();
+        try {
+            const response = await fetch('http://localhost:3000/add', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userInput }),
+                credentials: 'include',
+            });
+            if (response.ok) {
+                console.log('Task Added');
+                setUserInput('');
+                toast.success("Task Added");
+            } else {
+                console.error('Task not Added');
+                setUserInput('');
+                response.json().then((data) => toast.error(data.error));
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Task not Added");
         }
     };
 
@@ -93,8 +124,8 @@ export default function Dashboard() {
             <h2>Welcome {userData}</h2>
         </div>
         <div>
-            <input type="text" placeholder="Enter your task" onChange={(e)=>setUserInput(e.target.value)} value={userInput}/>
-            <button onClick={()=>setTodoList([...todoList,userInput])}>Add</button>
+            <input type="text" placeholder="Enter your task" onChange={handleInput} value={userInput}/>
+            <button onClick={handleAdd}>Add</button>
         </div>
         <div>
             <ul>
