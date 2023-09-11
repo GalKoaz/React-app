@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import User from "./Models/User.js";
+import todoList from "./Models/TodoList.js";
 import bcrypt from "bcrypt";
 import cors from 'cors';
 import session from "express-session";
@@ -15,7 +16,12 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 app.use(bodyParser.json());
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
+
 
 
 app.use(session({
@@ -38,7 +44,7 @@ function isAuthenticated(req, res, next) {
   if (req.session && req.session.user) {
     return next();
   }
-  
+
   res.status(401).send('Unauthorized');
 }
 
@@ -86,6 +92,7 @@ app.post("/login", async (req, res) => {
             return res.status(400).json({ error: "Invalid credentials" });
         }
         req.session.user = user;
+        console.log(req.session);
         res.status(200).json({Login: true, message: "Login successful" });
         } catch (error) {
         console.error(error);
@@ -97,6 +104,33 @@ app.post("/login", async (req, res) => {
 app.get('/dashboard', isAuthenticated, (req, res) => {
   console.log(req.session.user);
   res.status(200).json({ message: 'You are authenticated', user: req.session.user });
+});
+
+
+app.post('/add',isAuthenticated, async (req, res) => {
+  try {
+    console.log(req.session);
+    const user_id = req.session.user;
+    console.log(user_id);
+    const {text} = req.body;
+    const todo = new todoList({ user_id, text });
+    await todo.save();
+    res.status(201).json({ message: "Todo added successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Todo addition failed" });
+  }
+});
+
+app.get('/getList', isAuthenticated, async (req, res) => {
+  try {
+    const user_id = req.session.user._id;
+    const todo = await todoList.find({ user_id });
+    res.status(200).json({ message: "Todo added successfully", todo });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Todo addition failed" });
+  }
 });
 
 app.post('/logout', (req, res) => {
