@@ -9,13 +9,12 @@ const todoSchema = new mongoose.Schema({
   },
   text: {
     type: String,
-    index: true,
     required: true,
   }
 });
 
 
-todoSchema.plugin(passportlocalmongoose);
+todoSchema.plugin(passportlocalmongoose, { usernameField: "user_id" });
 
 const todoList = mongoose.model('todoList', todoSchema);
 

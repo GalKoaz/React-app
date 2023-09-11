@@ -23,11 +23,10 @@ app.use(cors({
 }));
 
 
-
 app.use(session({
   secret: process.env.SECRET,
-  resave: false, // Set to false to prevent unnecessary session updates
-  saveUninitialized: true, // Set to true to create a session for new visitors
+  resave: false,
+  saveUninitialized: true,
 }));
 
 
