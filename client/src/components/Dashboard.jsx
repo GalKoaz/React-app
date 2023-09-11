@@ -139,6 +139,28 @@ export default function Dashboard() {
         }
     };
 
+    const editItem = async (id) => {
+        const item = todoList[id];
+        try {
+            const response = await fetch('http://localhost:3000/edit', {
+                method: 'PUT',
+                headers: {
+                'Content-Type': 'application/json',
+                credentials: 'include',
+                },
+                body: JSON.stringify({ text:item }),
+            });
+            if (response.ok) {
+                console.log('Task Edited');
+            } else {
+                console.error('Task not Edited');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
 
 
     return ({authenticated} ?
@@ -154,7 +176,7 @@ export default function Dashboard() {
             <ul>
                 {todoList.map((item,index)=>{
                     return(
-                        <Item key={index} id={index} item={item} onChecked={removeItem}/>
+                        <Item key={index} id={index} item={item} onChecked={removeItem} onChecked2={editItem}/>
                     )
                 })} 
             </ul>

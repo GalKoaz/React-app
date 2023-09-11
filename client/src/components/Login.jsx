@@ -20,7 +20,7 @@ export default function Login() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
-        credentials: 'include', // Send cookies with the request
+        credentials: 'include',
       });
 
       if (response.ok) {
