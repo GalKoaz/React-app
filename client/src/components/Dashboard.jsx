@@ -76,7 +76,7 @@ export default function Dashboard() {
                 headers: {
                 'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userInput }),
+                body: JSON.stringify({ text:userInput }),
                 credentials: 'include',
             });
             if (response.ok) {
@@ -125,7 +125,7 @@ export default function Dashboard() {
         <>
         <div>
             <h1>Dashboard</h1>
-            <h2>Welcome {userData}</h2>
+            {/* <h2>Welcome {userData}</h2> */}
         </div>
         <div>
             <input type="text" placeholder="Enter your task" onChange={handleInput} value={userInput}/>

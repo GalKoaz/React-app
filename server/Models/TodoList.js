@@ -9,6 +9,7 @@ const todoSchema = new mongoose.Schema({
   },
   text: {
     type: String,
+    index: true,
     required: true,
   }
 });
