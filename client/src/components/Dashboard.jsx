@@ -116,39 +116,32 @@ export default function Dashboard() {
 
 
     const removeItem = async (id) => {
-        console.log(id);
-
-        setTodoList((prevValue)=>{
-            return prevValue.filter((item,index)=>{
-                return index !== id;
+        const item = todoList[id];
+        try {
+            const response = await fetch('http://localhost:3000/delete', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ item }),
+                credentials: 'include',
             });
-        });
-
-        // try {
-        //     const response = await fetch('http://localhost:3000/delete', {
-        //         method: 'POST',
-        //         headers: {
-        //         'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({ id }),
-        //         credentials: 'include',
-        //     });
-        //     if (response.ok) {
-        //         console.log('Task Deleted');
-        //         toast.success("Task Deleted");
-        //     } else {
-        //         console.error('Task not Deleted');
-        //         response.json().then((data) => toast.error(data.error));
-        //     }
-        // } catch (error) {
-        //     console.error(error);
-        //     toast.error("Task not Deleted");
-        // }
-
-        // const newList = todoList.filter((item,index)=>{
-        //     return index !== id;
-        // });
-        // setTodoList(newList);
+            if (response.ok) {
+                console.log('Task Deleted');
+                toast.success("Task Deleted");
+                setTodoList((prevValue)=>{
+                    return prevValue.filter((item,index)=>{
+                        return index !== id;
+                    });
+                });
+            } else {
+                console.error('Task not Deleted');
+                response.json().then((data) => toast.error(data.error));
+            }
+        } catch (error) {
+            console.error(error);
+            toast.error("Task not Deleted");
+        }
     };
 
 
