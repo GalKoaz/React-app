@@ -19,23 +19,42 @@ export default function Dashboard() {
           try {
             const response = await fetch('http://localhost:3000/dashboard', {
                 method: 'GET',
-                credentials: 'include', // Send cookies with the request
+                credentials: 'include',
             });
             if (!response.ok) {
               throw new Error('Network response was not ok');
             }
             const data = await response.json();
             setAuthenticated(true);
-            setUserData(data.user);
-            console.log(data.user.email);
+            setUserData(data.user.email.split('@')[0]);
             setLoading(false);
           } catch (error) {
             setLoading(false);
           }
         };
-    
-        fetchUserData();
-      }, []);
+        fetchUserData();    
+        
+        const fetchTodoList = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/getList', {
+                    method: 'GET',
+                    credentials: 'include',
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                setTodoList(data.todo.map((item) => item.text));
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchTodoList();
+
+      }, [setTodoList]);
+
+
+
       
 
     const handleLogout = async (event) => {
@@ -95,37 +114,11 @@ export default function Dashboard() {
     };
 
 
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-    //     try {
-    //         const response = await fetch('http://localhost:3000/add', {
-    //             method: 'POST',
-    //             headers: {
-    //             'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({ task:userInput }),
-    //         });
-    //         if (response.ok) {
-    //             console.log('Task Added');
-    //             setUserInput('');
-    //             toast.success("Task Added");
-    //         } else {
-    //             console.error('Task not Added');
-    //             setUserInput('');
-    //             response.json().then((data) => toast.error(data.error));
-    //         }
-    //     } catch (error) {
-    //         console.error(error);
-    //         toast.error("Task not Added");
-    //     }
-    // };
-
 
     return ({authenticated} ?
         <>
         <div>
-            <h1>Dashboard</h1>
-            {/* <h2>Welcome {userData}</h2> */}
+            <h1>Welcome {userData}</h1>
         </div>
         <div>
             <input type="text" placeholder="Enter your task" onChange={handleInput} value={userInput}/>
