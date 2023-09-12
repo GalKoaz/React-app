@@ -132,24 +132,7 @@ app.get('/getList', isAuthenticated, async (req, res) => {
   }
 });
 
-app.delete('/delete', isAuthenticated, async (req, res) => {
-  try {
-    const user_id = req.session.user._id;
-    const {text} = req.body;
-    console.log(user_id, text);
-    const findmeassge = await todoList.findOneAndDelete({ user_id, text });
-    console.log("Deleted Todo:", findmeassge);
-    if(!findmeassge){
-      return res.status(400).json({ error: "task does not exist" });
-    }
-    res.status(200).json({ message: "Todo deleted successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Todo deletion failed" });
-  }
-});
-
-app.put('/edit', isAuthenticated, async (req, res) => {
+app.put('/edit',isAuthenticated, async (req, res) => {
   try {
     const user_id = req.session.user._id;
     const {text, editText} = req.body;
@@ -166,6 +149,22 @@ app.put('/edit', isAuthenticated, async (req, res) => {
   }
 });
 
+app.delete('/delete', isAuthenticated, async (req, res) => {
+  try {
+    const user_id = req.session.user._id;
+    const {text} = req.body;
+    console.log(user_id, text);
+    const findmeassge = await todoList.findOneAndDelete({ user_id, text });
+    console.log("Deleted Todo:", findmeassge);
+    if(!findmeassge){
+      return res.status(400).json({ error: "task does not exist" });
+    }
+    res.status(200).json({ message: "Todo deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Todo deletion failed" });
+  }
+});
 
 
 app.post('/logout', (req, res) => {

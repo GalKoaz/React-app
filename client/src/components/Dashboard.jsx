@@ -155,21 +155,21 @@ export default function Dashboard() {
 
         try {
             const response = await fetch('http://localhost:3000/edit', {
-                method: 'PUT',
-                headers: {
+              method: 'PUT',
+              headers: {
                 'Content-Type': 'application/json',
-                credentials: 'include',
-                },
-                body: JSON.stringify({ text:todoList[textID], editText:editText }),
+              },
+              credentials: 'include', // Move this line out of the headers object
+              body: JSON.stringify({ text: todoList[textID], editText: editText }),
             });
             if (response.ok) {
-                console.log('Task Edited');
+              console.log('Task Edited');
             } else {
-                console.error('Task not Edited');
+              console.error('Task not Edited');
             }
-        } catch (error) {
+          } catch (error) {
             console.error(error);
-        }
+          }          
         todoList[textID] = editText;
         setEdit(false);
         setEditText('');
