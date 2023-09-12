@@ -7,13 +7,13 @@ import Register from "./components/Register";
 import "./index.css";
 import Dashboard from "./components/Dashboard";
 // import App2 from "./components/App2";
+import { Navigate } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-const isAuthenticated = () => {
-  // Check if the user is authenticated here
-  // You might check for a token, session, or any other authentication state
-  // Return true if authenticated, otherwise return false
+const isAuthenticated = (authenticated) => {
+  console.log("Authenticated:", authenticated);
+  return authenticated;
 };
 
 root.render(
@@ -21,10 +21,11 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route index element={<App />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login authCheck={isAuthenticated}/>} />
         <Route path="/register" element={<Register />} />
-        {/* <Route path="/app2" element={<App2 />} /> */}
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={isAuthenticated ? <Dashboard  authCheck={isAuthenticated}/> : (<Navigate to="/login" replace />) }/>
+
+        {/* <Route path="/dashboard" element={<Dashboard authCheck={isAuthenticated}/>} /> */}
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

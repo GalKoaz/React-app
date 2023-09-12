@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Item from './Item';
 import './Dashboard.css';
 
-export default function Dashboard() {
+export default function Dashboard(props) {
 
     const [userInput,setUserInput] = useState('');
     const [todoList,setTodoList] = useState([]);
@@ -74,6 +74,7 @@ export default function Dashboard() {
                 console.log('Logout successful');
                 toast.success("Logout successful");
                 setAuthenticated(false);
+                props.authCheck(false);
                 navigate('/login');
             } else {
                 console.error('Logout failed');

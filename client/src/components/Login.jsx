@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
 
-export default function Login() {
+export default function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -28,6 +28,7 @@ export default function Login() {
         toast.success("Login successful");
         setEmail('');
         setPassword('');
+        props.authCheck(true);
         setTimeout(() => {
           navigate('/dashboard');
         }, 2000);
