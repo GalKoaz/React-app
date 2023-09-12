@@ -119,7 +119,7 @@ export default function Dashboard() {
         const item = todoList[id];
         try {
             const response = await fetch('http://localhost:3000/delete', {
-                method: 'POST',
+                method: 'DELETE',
                 headers: {
                 'Content-Type': 'application/json',
                 },
@@ -172,8 +172,8 @@ export default function Dashboard() {
         }
         todoList[textID] = editText;
         setEdit(false);
-        editText('');
-        textID('');
+        setEditText('');
+        setTextID('');
     }
 
 

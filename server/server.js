@@ -132,7 +132,7 @@ app.get('/getList', isAuthenticated, async (req, res) => {
   }
 });
 
-app.post('/delete', isAuthenticated, async (req, res) => {
+app.delete('/delete', isAuthenticated, async (req, res) => {
   try {
     const user_id = req.session.user._id;
     const {text} = req.body;
