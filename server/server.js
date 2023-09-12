@@ -103,7 +103,7 @@ app.post("/login", async (req, res) => {
 
 
 app.get('/dashboard', isAuthenticated, (req, res) => {
-  console.log(req.session.user);
+  // console.log(req.session.user);
   res.status(200).json({ message: 'You are authenticated', user: req.session.user });
 });
 
