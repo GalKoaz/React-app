@@ -195,6 +195,7 @@ export default function Dashboard(props) {
                     )
                 })}</> : 
                 <>
+                <p>Edit Selected Task: <span style={{ "font-weight": 'bold' }}>"{todoList[textID]}"</span></p>
                 <div className="input-container">
                 <input type="text" placeholder={todoList[textID]} onChange={handleEdit} value={editText}/>
                 <button className="buttonInput" onClick={editItemHandler}>Update</button>
