@@ -14,12 +14,10 @@ const AppContainer = () => {
   const [authenticated, setAuthenticated] = useState(false);
 
   const handleLogin = () => {
-    // Perform authentication logic here, set authenticated to true if successful
     setAuthenticated(true);
   };
 
   const handleLogout = () => {
-    // Perform logout logic here, set authenticated to false
     setAuthenticated(false);
   };
 
