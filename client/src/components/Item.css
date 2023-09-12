@@ -1,9 +1,11 @@
-.delete-icon{
-    cursor: pointer;
-    align-items: right;
-}
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-.edit-icon{
+  .icons {
+    display: flex;
     cursor: pointer;
-    align-items: right;
-}
+    gap: 10%;
+  }

@@ -11,7 +11,9 @@ export default function Dashboard() {
     const [authenticated, setAuthenticated] = useState(false);
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const [edit, setEdit] = useState(false);
+    const [editText, setEditText] = useState('');
+    const [textID, setTextID] = useState('');
 
     const navigate = useNavigate();
 
@@ -139,8 +141,18 @@ export default function Dashboard() {
         }
     };
 
+
+    const handleEdit = (event) => {
+        setEditText(event.target.value);
+    };
+
     const editItem = async (id) => {
-        const item = todoList[id];
+        setEdit(true);
+        setTextID(id);
+    };
+
+    async function editItemHandler(){
+
         try {
             const response = await fetch('http://localhost:3000/edit', {
                 method: 'PUT',
@@ -148,7 +160,7 @@ export default function Dashboard() {
                 'Content-Type': 'application/json',
                 credentials: 'include',
                 },
-                body: JSON.stringify({ text:item }),
+                body: JSON.stringify({ text:todoList[textID], editText:editText }),
             });
             if (response.ok) {
                 console.log('Task Edited');
@@ -158,9 +170,11 @@ export default function Dashboard() {
         } catch (error) {
             console.error(error);
         }
-    };
-
-
+        todoList[textID] = editText;
+        setEdit(false);
+        editText('');
+        textID('');
+    }
 
 
     return ({authenticated} ?
@@ -168,17 +182,23 @@ export default function Dashboard() {
         <div className="dashboard">
             <h1>Welcome {userData}</h1>
         </div>
-        <div className="input-container">
+        {!edit && <div className="input-container">
             <input type="text" placeholder="Enter your task" onChange={handleInput} value={userInput}/>
             <button className="buttonInput"onClick={handleAdd}>Add</button>
-        </div>
+        </div>}
         <div className="task-list">
             <ul>
-                {todoList.map((item,index)=>{
+            {!edit ? <> {todoList.map((item,index)=>{
                     return(
                         <Item key={index} id={index} item={item} onChecked={removeItem} onChecked2={editItem}/>
                     )
-                })} 
+                })}</> : 
+                <>
+                <div className="input-container">
+                <input type="text" placeholder={todoList[textID]} onChange={handleEdit} value={editText}/>
+                <button className="buttonInput" onClick={editItemHandler}>Update</button>
+                </div>
+                </>}
             </ul>
         </div>
         <div className="logout-container">

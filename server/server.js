@@ -149,6 +149,23 @@ app.post('/delete', isAuthenticated, async (req, res) => {
   }
 });
 
+app.post('/edit', isAuthenticated, async (req, res) => {
+  try {
+    const user_id = req.session.user._id;
+    const {text, editText} = req.body;
+    console.log(user_id, text, editText);
+    const findmeassge = await todoList.findOneAndUpdate({ user_id, text }, { text:editText });
+    console.log("Edited Todo:", findmeassge);
+    if(!findmeassge){
+      return res.status(400).json({ error: "task does not exist" });
+    }
+    res.status(200).json({ message: "Todo edited successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Todo edit failed" });
+  }
+});
+
 
 
 app.post('/logout', (req, res) => {
