@@ -1,4 +1,4 @@
-# React-app Reactjs + Vite Project with mongodb + Node.js + express + Authenticate with Users
+# Reactjs + Vite Project with mongodb + Node.js + express + Authenticate with Users
 
 ## This project with RestAPI(GET,POST,PUT,DELETE) + sessions
 
