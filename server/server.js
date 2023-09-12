@@ -153,7 +153,7 @@ app.delete('/delete', isAuthenticated, async (req, res) => {
   try {
     const user_id = req.session.user._id;
     const {text} = req.body;
-    console.log(user_id, text);
+    // console.log(user_id, text);
     const findmeassge = await todoList.findOneAndDelete({ user_id, text });
     console.log("Deleted Todo:", findmeassge);
     if(!findmeassge){

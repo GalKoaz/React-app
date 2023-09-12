@@ -28,7 +28,7 @@ export default function Login(props) {
         toast.success("Login successful");
         setEmail('');
         setPassword('');
-        props.authCheck(true);
+        props.onLogin(true);
         setTimeout(() => {
           navigate('/dashboard');
         }, 2000);

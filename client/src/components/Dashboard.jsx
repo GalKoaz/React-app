@@ -74,7 +74,7 @@ export default function Dashboard(props) {
                 console.log('Logout successful');
                 toast.success("Logout successful");
                 setAuthenticated(false);
-                props.authCheck(false);
+                props.onLogout(false);
                 navigate('/login');
             } else {
                 console.error('Logout failed');
